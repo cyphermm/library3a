@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library 3A - Sua Livraria Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        .hero-bg {
+            background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="border-b bg-white sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                    <h1 class="text-2xl font-bold text-orange-600">📚 Library 3A</h1>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Início</a>
+                    <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Categorias</a>
+                    <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Ofertas</a>
+                    <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Contato</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <input type="text" placeholder="Buscar livros..." class="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <button class="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+                            <i data-lucide="search" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+
+                    <button class="relative px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
+                        <i data-lucide="shopping-cart" class="h-4 w-4"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 h-5 w-5 bg-orange-600 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+
+                    <button class="md:hidden px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50" onclick="toggleMobileMenu()">
+                        <i data-lucide="menu" class="h-4 w-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-white">
+            <nav class="flex flex-col space-y-4 p-4">
+                <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Início</a>
+                <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Categorias</a>
+                <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Ofertas</a>
+                <a href="#" class="text-gray-700 hover:text-orange-600 transition-colors">Contato</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                        Descubra Seu Próximo
+                        <span class="text-orange-600"> Livro Favorito</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 mb-6">
+                        Mais de 10.000 títulos com os melhores preços e entrega rápida para todo o Brasil
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="px-8 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                            Ver Ofertas Especiais
+                        </button>
+                        <button class="px-8 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Explorar Categorias
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-6 mt-8">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="truck" class="h-5 w-5 text-green-600"></i>
+                            <span class="text-sm text-gray-600">Frete Grátis acima de R$ 50</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="shield" class="h-5 w-5 text-blue-600"></i>
+                            <span class="text-sm text-gray-600">Compra 100% Segura</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                         alt="Library 3A - Sua livraria online" 
+                         class="w-full h-auto rounded-lg shadow-lg">
+                    <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                        Até 50% OFF
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Books -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Livros em Destaque</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Selecionamos os melhores títulos com ofertas imperdíveis especialmente para você
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="featured-books">
+                <!-- Books will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">Explore por Categoria</h3>
+                <p class="text-gray-600">Encontre exatamente o que você está procurando</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="categories">
+                <!-- Categories will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900 mb-4">O Que Nossos Clientes Dizem</h3>
+                <div class="flex items-center justify-center space-x-6 mb-8">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600">50k+</div>
+                        <div class="text-gray-600">Clientes Satisfeitos</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600">4.9</div>
+                        <div class="text-gray-600">Avaliação Média</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600">10k+</div>
+                        <div class="text-gray-600">Livros Vendidos</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6" id="testimonials">
+                <!-- Testimonials will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 bg-orange-600">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-3xl font-bold text-white mb-4">Não Perca Nenhuma Oferta!</h3>
+            <p class="text-orange-100 mb-8 max-w-2xl mx-auto">
+                Cadastre-se em nossa newsletter e receba as melhores promoções, lançamentos e dicas de leitura diretamente no seu e-mail
+            </p>
+
+            <form onsubmit="handleNewsletterSubmit(event)" class="max-w-md mx-auto flex gap-4">
+                <input type="email" 
+                       placeholder="Seu melhor e-mail" 
+                       class="flex-1 px-3 py-2 rounded-md border-0 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                       required>
+                <button type="submit" class="px-6 py-2 bg-white text-orange-600 rounded-md hover:bg-gray-100 transition-colors">
+                    Cadastrar
+                </button>
+            </form>
+
+            <p class="text-orange-100 text-sm mt-4">🎁 Ganhe 10% de desconto na primeira compra ao se cadastrar! <br>
+                <br> 
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4">📚 Library 3A</h4>
+                    <p class="text-gray-400 mb-4">
+                        Sua livraria online de confiança com os melhores preços e atendimento excepcional.
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <i data-lucide="truck" class="h-5 w-5 text-green-400"></i>
+                        <span class="text-sm">Entrega em todo Brasil</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h5 class="font-semibold mb-4">Categorias</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Ficção</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Negócios</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Romance</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Culinária</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-semibold mb-4">Atendimento</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Trocas e Devoluções</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Frete e Entrega</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-semibold mb-4">Segurança</h5>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i data-lucide="shield" class="h-5 w-5 text-green-400"></i>
+                        <span class="text-sm text-gray-400">Site 100% Seguro</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Seus dados estão protegidos com criptografia SSL</p>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Library 3A. Todos os direitos de ANDISO e seu GRUPO!!.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Cart functionality
+        let cartItems = 0;
+
+        function addToCart() {
+            cartItems++;
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cart-count');
+            if (cartItems > 0) {
+                cartCount.textContent = cartItems;
+                cartCount.classList.remove('hidden');
+            } else {
+                cartCount.classList.add('hidden');
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Newsletter form
+        function handleNewsletterSubmit(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            alert('Obrigado por se inscrever! Você receberá nossas melhores ofertas.');
+            event.target.reset();
+        }
+
+        // Featured books data
+        const featuredBooks = [
+            {
+                id: 1,
+                title: "O Segredo do Sucesso",
+                author: "Maria Silva",
+                price: 29.9,
+                originalPrice: 39.9,
+                rating: 4.8,
+                reviews: 234,
+                image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                badge: "Bestseller",
+                description: "Descubra os segredos dos empreendedores de sucesso"
+            },
+            {
+                id: 2,
+                title: "Aventuras Fantásticas",
+                author: "João Santos",
+                price: 24.9,
+                originalPrice: 34.9,
+                rating: 4.9,
+                reviews: 189,
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                badge: "Novo",
+                description: "Uma jornada épica através de mundos mágicos"
+            },
+            {
+                id: 3,
+                title: "Culinária Moderna",
+                author: "Ana Costa",
+                price: 34.9,
+                originalPrice: 44.9,
+                rating: 4.7,
+                reviews: 156,
+                image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                badge: "Promoção",
+                description: "Receitas inovadoras para o chef moderno"
+            },
+            {
+                id: 4,
+                title: "Mistérios do Passado",
+                author: "Carlos Lima",
+                price: 27.9,
+                originalPrice: 37.9,
+                rating: 4.6,
+                reviews: 203,
+                image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+                badge: "Popular",
+                description: "Desvende os enigmas da história antiga"
+            }
+        ];
+
+        // Categories data
+        const categories = [
+            { name: "Ficção", count: 245, image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+            { name: "Negócios", count: 189, image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+            { name: "Romance", count: 167, image: "https://images.unsplash.com/photo-1518373714866-3f1478910cc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+            { name: "Culinária", count: 134, image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+            { name: "Tecnologia", count: 98, image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" },
+            { name: "História", count: 156, image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" }
+        ];
+
+        // Testimonials data
+        const testimonials = [
+            {
+                name: "Patricia Oliveira",
+                rating: 5,
+                comment: "Excelente qualidade dos livros e entrega super rápida! Recomendo muito.",
+                avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80"
+            },
+            {
+                name: "Roberto Silva",
+                rating: 5,
+                comment: "Melhor livraria online que já usei. Preços justos e atendimento impecável.",
+                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80"
+            },
+            {
+                name: "Fernanda Costa",
+                rating: 5,
+                comment: "Adoro as promoções e a variedade de títulos. Sempre encontro o que procuro!",
+                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80"
+            }
+        ];
+
+        // Render featured books
+        function renderFeaturedBooks() {
+            const container = document.getElementById('featured-books');
+            container.innerHTML = featuredBooks.map(book => {
+                const discount = Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100);
+                const stars = '★'.repeat(Math.floor(book.rating)) + '☆'.repeat(5 - Math.floor(book.rating));
+                
+                return `
+                    <div class="bg-white rounded-lg shadow-md card-hover transition-all group">
+                        <div class="p-4">
+                            <div class="relative mb-4">
+                                <img src="${book.image}" alt="${book.title}" class="w-full h-64 object-cover rounded-lg">
+                                <span class="absolute top-2 left-2 bg-orange-600 text-white px-2 py-1 rounded text-xs font-bold">${book.badge}</span>
+                                <button class="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i data-lucide="heart" class="h-4 w-4"></i>
+                                </button>
+                            </div>
+
+                            <h4 class="font-semibold text-gray-900 mb-1">${book.title}</h4>
+                            <p class="text-sm text-gray-600 mb-2">por ${book.author}</p>
+                            <p class="text-sm text-gray-500 mb-3">${book.description}</p>
+
+                            <div class="flex items-center mb-3">
+                                <div class="text-yellow-400 text-sm">${stars}</div>
+                                <span class="text-sm text-gray-600 ml-2">${book.rating} (${book.reviews} avaliações)</span>
+                            </div>
+
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <span class="text-lg font-bold text-orange-600">R$ ${book.price.toFixed(2)}</span>
+                                    <span class="text-sm text-gray-500 line-through ml-2">R$ ${book.originalPrice.toFixed(2)}</span>
+                                </div>
+                                <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-xs font-bold">${discount}% OFF</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 pt-0">
+                            <button onclick="addToCart()" class="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center">
+                                <i data-lucide="shopping-cart" class="h-4 w-4 mr-2"></i>
+                                Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Re-initialize Lucide icons for new elements
+            lucide.createIcons();
+        }
+
+        // Render categories
+        function renderCategories() {
+            const container = document.getElementById('categories');
+            container.innerHTML = categories.map(category => `
+                <div class="bg-white rounded-lg shadow-md p-6 text-center card-hover transition-all cursor-pointer">
+                    <img src="${category.image}" alt="${category.name}" class="w-20 h-20 mx-auto mb-4 rounded-full object-cover">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">${category.name}</h4>
+                    <p class="text-gray-600">${category.count} livros disponíveis</p>
+                </div>
+            `).join('');
+        }
+
+        // Render testimonials
+        function renderTestimonials() {
+            const container = document.getElementById('testimonials');
+            container.innerHTML = testimonials.map(testimonial => {
+                const stars = '★'.repeat(testimonial.rating);
+                
+                return `
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="${testimonial.avatar}" alt="${testimonial.name}" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h5 class="font-semibold text-gray-900">${testimonial.name}</h5>
+                                <div class="text-yellow-400">${stars}</div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">"${testimonial.comment}"</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderFeaturedBooks();
+            renderCategories();
+            renderTestimonials();
+        });
+    </script>
+</body>
+</html>
