@@ -3,267 +3,651 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library 3A - Sua Livraria Online</title>
+    <title>Livraria 3A - Livros que transformam vidas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .newsletter-input {
+            border-radius: 30px 0 0 30px;
+        }
+        
+        .newsletter-btn {
+            border-radius: 0 30px 30px 0;
+        }
+    </style>
 </head>
-<body class="bg-white">
-    <!-- Header -->
-    <header class="border-b bg-white sticky top-0 z-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center space-x-4">
-                    <h1 class="text-2xl font-bold text-orange-600">📚 Library 3A</h1>
-                </div>
-
-                <nav class="hidden md:flex items-center space-x-6">
-                    <a href="#home" class="text-gray-700 hover:text-orange-600 transition-colors">Início</a>
-                    <a href="#categories" class="text-gray-700 hover:text-orange-600 transition-colors">Categorias</a>
-                    <a href="#featured" class="text-gray-700 hover:text-orange-600 transition-colors">Ofertas</a>
-                    <a href="#contact" class="text-gray-700 hover:text-orange-600 transition-colors">Contato</a>
-                </nav>
-
-                <div class="flex items-center space-x-4">
-                    <div class="hidden md:flex items-center space-x-2">
-                        <input type="text" id="search-input" placeholder="Buscar livros..." class="w-64 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500">
-                        <button onclick="searchBooks()" class="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
-                            <i data-lucide="search" class="h-4 w-4"></i>
-                        </button>
-                    </div>
-
-                    <button onclick="toggleCart()" class="relative px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50">
-                        <i data-lucide="shopping-cart" class="h-4 w-4"></i>
-                        <span id="cart-count" class="absolute -top-2 -right-2 h-5 w-5 bg-orange-600 text-white text-xs rounded-full flex items-center justify-center hidden">0</span>
-                    </button>
-
-                    <button class="md:hidden px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50" onclick="toggleMobileMenu()">
-                        <i data-lucide="menu" class="h-4 w-4"></i>
-                    </button>
-                </div>
+<body class="font-sans bg-gray-50">
+    <!-- Top Bar -->
+    <div class="bg-blue-900 text-white py-2 px-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="text-sm hover:text-yellow-300"><i class="fas fa-phone-alt mr-1"></i> (11) 1234-5678</a>
+                <a href="#" class="text-sm hover:text-yellow-300"><i class="fas fa-envelope mr-1"></i> contato@livraria3a.com.br</a>
             </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t bg-white">
-            <nav class="flex flex-col space-y-4 p-4">
-                <a href="#home" onclick="closeMobileMenu()" class="text-gray-700 hover:text-orange-600 transition-colors">Início</a>
-                <a href="#categories" onclick="closeMobileMenu()" class="text-gray-700 hover:text-orange-600 transition-colors">Categorias</a>
-                <a href="#featured" onclick="closeMobileMenu()" class="text-gray-700 hover:text-orange-600 transition-colors">Ofertas</a>
-                <a href="#contact" onclick="closeMobileMenu()" class="text-gray-700 hover:text-orange-600 transition-colors">Contato</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Cart Sidebar -->
-    <div id="cart-sidebar" class="fixed inset-y-0 right-0 w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50">
-        <div class="p-4 border-b">
-            <div class="flex items-center justify-between">
-                <h3 class="text-lg font-semibold">Carrinho de Compras</h3>
-                <button onclick="toggleCart()" class="p-2 hover:bg-gray-100 rounded">
-                    <i data-lucide="x" class="h-5 w-5"></i>
-                </button>
+            <div class="flex space-x-4">
+                <a href="#" class="text-sm hover:text-yellow-300"><i class="fas fa-user mr-1"></i> Minha Conta</a>
+                <a href="#" class="text-sm hover:text-yellow-300"><i class="fas fa-heart mr-1"></i> Lista de Desejos</a>
+                <a href="#" class="text-sm hover:text-yellow-300"><i class="fas fa-shopping-cart mr-1"></i> Carrinho (0)</a>
             </div>
-        </div>
-        <div id="cart-items" class="flex-1 overflow-y-auto p-4">
-            <p class="text-gray-500 text-center">Seu carrinho está vazio</p>
-        </div>
-        <div id="cart-footer" class="border-t p-4 hidden">
-            <div class="flex justify-between items-center mb-4">
-                <span class="font-semibold">Total:</span>
-                <span id="cart-total" class="font-bold text-orange-600">R$ 0,00</span>
-            </div>
-            <button onclick="checkout()" class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700 transition-colors">
-                Finalizar Compra
-            </button>
         </div>
     </div>
 
-    <!-- Cart Overlay -->
-    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40" onclick="toggleCart()"></div>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero-bg py-16">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                        Descubra Seu Próximo
-                        <span class="text-orange-600"> Livro Favorito</span>
-                    </h2>
-                    <p class="text-xl text-gray-600 mb-6">
-                        Mais de 10.000 títulos com os melhores preços e entrega rápida para todo o Brasil
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <button onclick="scrollToSection('featured')" class="px-8 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
-                            Ver Ofertas Especiais
-                        </button>
-                        <button onclick="scrollToSection('categories')" class="px-8 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                            Explorar Categorias
-                        </button>
-                    </div>
-
-                    <div class="flex items-center space-x-6 mt-8">
-                        <div class="flex items-center space-x-2">
-                            <i data-lucide="truck" class="h-5 w-5 text-green-600"></i>
-                            <span class="text-sm text-gray-600">Frete Grátis acima de R$ 50</span>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i data-lucide="shield" class="h-5 w-5 text-blue-600"></i>
-                            <span class="text-sm text-gray-600">Compra 100% Segura</span>
-                        </div>
-                    </div>
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="https://via.placeholder.com/150x50?text=Livraria+3A" alt="Livraria 3A Logo" class="h-12">
+            </div>
+            
+            <div class="relative w-full md:w-1/2">
+                <input type="text" placeholder="Buscar livros, autores..." class="w-full py-2 px-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button class="absolute right-0 top-0 h-full px-4 bg-blue-600 text-white rounded-r-full hover:bg-blue-700">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-4 mt-4 md:mt-0">
+                <div class="text-center">
+                    <i class="fas fa-truck text-2xl text-blue-600"></i>
+                    <p class="text-xs">Frete Grátis</p>
+                    <p class="text-xs font-bold">Acima de R$ 150</p>
                 </div>
-
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                         alt="Library 3A - Sua livraria online" 
-                         class="w-full h-auto rounded-lg shadow-lg">
-                    <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">
-                        Até 50% OFF
-                    </div>
+                <div class="text-center">
+                    <i class="fas fa-credit-card text-2xl text-blue-600"></i>
+                    <p class="text-xs">Parcele em até</p>
+                    <p class="text-xs font-bold">12x sem juros</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-lock text-2xl text-blue-600"></i>
+                    <p class="text-xs">Compra</p>
+                    <p class="text-xs font-bold">100% Segura</p>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- Featured Books -->
-    <section id="featured" class="py-16">
+    <!-- Navigation -->
+    <nav class="bg-blue-800 text-white">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h3 class="text-3xl font-bold text-gray-900 mb-4">Livros em Destaque</h3>
-                <p class="text-gray-600 max-w-2xl mx-auto">
-                    Selecionamos os melhores títulos com ofertas imperdíveis especialmente para você
-                </p>
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="dropdown relative py-4">
+                    <button class="flex items-center space-x-2 hover:text-yellow-300">
+                        <i class="fas fa-bars"></i>
+                        <span>Todas as Categorias</span>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-white text-gray-800 shadow-lg rounded-md mt-2 w-48 z-10">
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-100">Autoajuda</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-100">Negócios</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-100">Infantil</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-100">Religião</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-100">Saúde</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-100">Literatura</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex space-x-6">
+                    <a href="#" class="py-4 hover:text-yellow-300">Home</a>
+                    <a href="#" class="py-4 hover:text-yellow-300">Lançamentos</a>
+                    <a href="#" class="py-4 hover:text-yellow-300">Mais Vendidos</a>
+                    <a href="#" class="py-4 hover:text-yellow-300">Promoções</a>
+                    <a href="#" class="py-4 hover:text-yellow-300">Autores</a>
+                    <a href="#" class="py-4 hover:text-yellow-300">Blog</a>
+                    <a href="#" class="py-4 hover:text-yellow-300">Contato</a>
+                </div>
+                
+                <div class="py-4">
+                    <a href="#" class="bg-yellow-400 text-blue-900 font-bold py-2 px-6 rounded-full hover:bg-yellow-500">Seja um Autor</a>
+                </div>
             </div>
+        </div>
+    </nav>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="featured-books">
-                <!-- Books will be populated by JavaScript -->
+    <!-- Hero Section -->
+    <section class="hero-section text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Livros que transformam vidas</h1>
+            <p class="text-xl mb-8">Na Livraria 3A, cada livro é uma nova oportunidade de crescimento</p>
+            <div class="flex justify-center space-x-4">
+                <a href="#" class="bg-yellow-400 text-blue-900 font-bold py-3 px-8 rounded-full hover:bg-yellow-500">Compre Agora</a>
+                <a href="#" class="bg-transparent border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-blue-900">Conheça Nossos Autores</a>
             </div>
         </div>
     </section>
 
     <!-- Categories -->
-    <section id="categories" class="py-16 bg-gray-50">
+    <section class="py-12 bg-white">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h3 class="text-3xl font-bold text-gray-900 mb-4">Explore por Categoria</h3>
-                <p class="text-gray-600">Encontre exatamente o que você está procurando</p>
-            </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="categories-grid">
-                <!-- Categories will be populated by JavaScript -->
+            <h2 class="text-3xl font-bold text-center mb-12">Nossas Categorias</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <a href="#" class="category-card bg-gray-100 rounded-lg p-6 text-center hover:bg-blue-100 transition">
+                    <i class="fas fa-heart text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="font-bold">Autoajuda</h3>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg p-6 text-center hover:bg-blue-100 transition">
+                    <i class="fas fa-briefcase text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="font-bold">Negócios</h3>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg p-6 text-center hover:bg-blue-100 transition">
+                    <i class="fas fa-child text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="font-bold">Infantil</h3>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg p-6 text-center hover:bg-blue-100 transition">
+                    <i class="fas fa-pray text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="font-bold">Religião</h3>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg p-6 text-center hover:bg-blue-100 transition">
+                    <i class="fas fa-heartbeat text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="font-bold">Saúde</h3>
+                </a>
+                <a href="#" class="category-card bg-gray-100 rounded-lg p-6 text-center hover:bg-blue-100 transition">
+                    <i class="fas fa-book text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="font-bold">Literatura</h3>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Social Proof -->
-    <section class="py-16">
+    <!-- Featured Products -->
+    <section class="py-12 bg-gray-50">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h3 class="text-3xl font-bold text-gray-900 mb-4">O Que Nossos Clientes Dizem</h3>
-                <div class="flex items-center justify-center space-x-6 mb-8">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-orange-600 counter" data-target="50000">0</div>
-                        <div class="text-gray-600">Clientes Satisfeitos</div>
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold">Lançamentos</h2>
+                <a href="#" class="text-blue-600 hover:underline">Ver todos</a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                        <div class="absolute top-2 right-2 bg-yellow-400 text-blue-900 text-xs font-bold px-2 py-1 rounded">NOVO</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-orange-600">4.9</div>
-                        <div class="text-gray-600">Avaliação Média</div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">O Poder da Ação</h3>
+                        <p class="text-gray-600 text-sm mb-2">Paulo Vieira</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(24)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-900">R$ 39,90</span>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-orange-600 counter" data-target="10000">0</div>
-                        <div class="text-gray-600">Livros Vendidos</div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                        <div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-20%</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Mindset</h3>
+                        <p class="text-gray-600 text-sm mb-2">Carol Dweck</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(18)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-gray-400 text-sm line-through mr-2">R$ 49,90</span>
+                                <span class="font-bold text-blue-900">R$ 39,92</span>
+                            </div>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Hábitos Atômicos</h3>
+                        <p class="text-gray-600 text-sm mb-2">James Clear</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(32)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-900">R$ 44,90</span>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">O Milagre da Manhã</h3>
+                        <p class="text-gray-600 text-sm mb-2">Hal Elrod</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(27)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-900">R$ 37,90</span>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="grid md:grid-cols-3 gap-6" id="testimonials">
-                <!-- Testimonials will be populated by JavaScript -->
+    <!-- Bestsellers -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold">Mais Vendidos</h2>
+                <a href="#" class="text-blue-600 hover:underline">Ver todos</a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">TOP</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">O Poder do Hábito</h3>
+                        <p class="text-gray-600 text-sm mb-2">Charles Duhigg</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(42)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-900">R$ 47,90</span>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Rápido e Devagar</h3>
+                        <p class="text-gray-600 text-sm mb-2">Daniel Kahneman</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(36)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-900">R$ 59,90</span>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative">
+                        <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                        <div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">TOP</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Essencialismo</h3>
+                        <p class="text-gray-600 text-sm mb-2">Greg McKeown</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(29)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-900">R$ 42,90</span>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="book-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <img src="https://via.placeholder.com/300x400?text=Capa+Livro" alt="Livro" class="w-full">
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">A Coragem de Ser Imperfeito</h3>
+                        <p class="text-gray-600 text-sm mb-2">Brené Brown</p>
+                        <div class="flex items-center mb-2">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-gray-600 text-xs ml-2">(21)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-blue-900">R$ 39,90</span>
+                            <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="py-12 bg-blue-900 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Promoção de Verão</h2>
+            <p class="text-xl mb-8">Até 40% de desconto em livros selecionados</p>
+            <a href="#" class="bg-yellow-400 text-blue-900 font-bold py-3 px-8 rounded-full hover:bg-yellow-500">Compre Agora</a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">O que nossos clientes dizem</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">5/5</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Comprei vários livros na Livraria 3A e todos chegaram em perfeito estado e antes do prazo estimado. Recomendo!"</p>
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/50?text=Cliente" alt="Cliente" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold">Ana Silva</h4>
+                            <p class="text-gray-600 text-sm">São Paulo, SP</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">4/5</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Ótimo atendimento e variedade de livros. Encontrei títulos que não achava em outras livrarias."</p>
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/50?text=Cliente" alt="Cliente" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold">Carlos Oliveira</h4>
+                            <p class="text-gray-600 text-sm">Rio de Janeiro, RJ</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">4.5/5</span>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Livraria 3A se tornou minha livraria preferida. Preços competitivos e entrega rápida. Já comprei mais de 10 livros aqui."</p>
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/50?text=Cliente" alt="Cliente" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-bold">Mariana Costa</h4>
+                            <p class="text-gray-600 text-sm">Belo Horizonte, MG</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold">Nosso Blog</h2>
+                <a href="#" class="text-blue-600 hover:underline">Ver todos os posts</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog Post 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://via.placeholder.com/600x400?text=Blog+Post" alt="Blog Post" class="w-full">
+                    <div class="p-6">
+                        <span class="text-blue-600 text-sm font-bold">DICAS DE LEITURA</span>
+                        <h3 class="font-bold text-xl my-2">Como criar o hábito da leitura</h3>
+                        <p class="text-gray-600 mb-4">Descubra estratégias simples para incorporar a leitura no seu dia a dia e transformar sua vida.</p>
+                        <a href="#" class="text-blue-600 font-bold hover:underline">Ler mais</a>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://via.placeholder.com/600x400?text=Blog+Post" alt="Blog Post" class="w-full">
+                    <div class="p-6">
+                        <span class="text-blue-600 text-sm font-bold">ENTREVISTA</span>
+                        <h3 class="font-bold text-xl my-2">Autores brasileiros que você precisa conhecer</h3>
+                        <p class="text-gray-600 mb-4">Conheça os talentos nacionais que estão transformando a literatura contemporânea.</p>
+                        <a href="#" class="text-blue-600 font-bold hover:underline">Ler mais</a>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="https://via.placeholder.com/600x400?text=Blog+Post" alt="Blog Post" class="w-full">
+                    <div class="p-6">
+                        <span class="text-blue-600 text-sm font-bold">RESENHA</span>
+                        <h3 class="font-bold text-xl my-2">Os 5 melhores livros de desenvolvimento pessoal</h3>
+                        <p class="text-gray-600 mb-4">Nossa seleção dos livros que podem ajudar você a alcançar seu potencial máximo.</p>
+                        <a href="#" class="text-blue-600 font-bold hover:underline">Ler mais</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Newsletter -->
-    <section class="py-16 bg-orange-600">
+    <section class="py-12 bg-gray-100">
         <div class="container mx-auto px-4 text-center">
-            <h3 class="text-3xl font-bold text-white mb-4">Não Perca Nenhuma Oferta!</h3>
-            <p class="text-orange-100 mb-8 max-w-2xl mx-auto">
-                Cadastre-se em nossa newsletter e receba as melhores promoções, lançamentos e dicas de leitura diretamente no seu e-mail
-            </p>
-
-            <form id="newsletter-form" class="max-w-md mx-auto flex gap-4">
-                <input type="email" 
-                       id="newsletter-email"
-                       placeholder="Seu melhor e-mail" 
-                       class="flex-1 px-3 py-2 rounded-md border-0 focus:outline-none focus:ring-2 focus:ring-orange-300"
-                       required>
-                <button type="submit" class="px-6 py-2 bg-white text-orange-600 rounded-md hover:bg-gray-100 transition-colors">
-                    Cadastrar
-                </button>
-            </form>
-
-            <p class="text-orange-100 text-sm mt-4">🎁 Ganhe 10% de desconto na primeira compra ao se cadastrar!</p>
+            <h2 class="text-3xl font-bold mb-4">Assine nossa newsletter</h2>
+            <p class="text-xl mb-8">Receba promoções exclusivas e novidades da Livraria 3A diretamente no seu e-mail</p>
+            
+            <div class="max-w-lg mx-auto flex">
+                <input type="email" placeholder="Seu melhor e-mail" class="w-full py-3 px-4 newsletter-input focus:outline-none">
+                <button class="bg-blue-600 text-white font-bold py-3 px-6 newsletter-btn hover:bg-blue-700">Assinar</button>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-gray-900 text-white py-12">
+    <footer class="bg-gray-900 text-white pt-12 pb-6">
         <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- About -->
                 <div>
-                    <h4 class="text-xl font-bold mb-4">📚 Library 3A</h4>
-                    <p class="text-gray-400 mb-4">
-                        Sua livraria online de confiança com os melhores preços e atendimento excepcional.
-                    </p>
-                    <div class="flex items-center space-x-4">
-                        <i data-lucide="truck" class="h-5 w-5 text-green-400"></i>
-                        <span class="text-sm">Entrega em todo Brasil</span>
+                    <h3 class="text-xl font-bold mb-4">Livraria 3A</h3>
+                    <p class="mb-4">Livros que transformam vidas. Desde 2010 levando conhecimento e inspiração para milhares de leitores.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white hover:text-blue-400"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-
+                
+                <!-- Links -->
                 <div>
-                    <h5 class="font-semibold mb-4">Categorias</h5>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" onclick="filterByCategory('Ficção')" class="hover:text-white transition-colors">Ficção</a></li>
-                        <li><a href="#" onclick="filterByCategory('Negócios')" class="hover:text-white transition-colors">Negócios</a></li>
-                        <li><a href="#" onclick="filterByCategory('Romance')" class="hover:text-white transition-colors">Romance</a></li>
-                        <li><a href="#" onclick="filterByCategory('Culinária')" class="hover:text-white transition-colors">Culinária</a></li>
+                    <h3 class="text-xl font-bold mb-4">Links Úteis</h3>
+                    <ul>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Sobre Nós</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Blog</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Contato</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Política de Privacidade</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Termos de Serviço</a></li>
                     </ul>
                 </div>
-
+                
+                <!-- My Account -->
                 <div>
-                    <h5 class="font-semibold mb-4">Atendimento</h5>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" onclick="showAlert('Central de Ajuda em desenvolvimento!')" class="hover:text-white transition-colors">Central de Ajuda</a></li>
-                        <li><a href="#" onclick="showAlert('Política de trocas: 30 dias para devolução!')" class="hover:text-white transition-colors">Trocas e Devoluções</a></li>
-                        <li><a href="#" onclick="showAlert('Frete grátis acima de R$ 50!')" class="hover:text-white transition-colors">Frete e Entrega</a></li>
-                        <li><a href="#" onclick="showAlert('Entre em contato: contato@library3a.com')" class="hover:text-white transition-colors">Contato</a></li>
+                    <h3 class="text-xl font-bold mb-4">Minha Conta</h3>
+                    <ul>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Minha Conta</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Meus Pedidos</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Lista de Desejos</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Carrinho</a></li>
+                        <li class="mb-2"><a href="#" class="hover:text-blue-400">Acompanhar Pedido</a></li>
                     </ul>
                 </div>
-
+                
+                <!-- Contact -->
                 <div>
-                    <h5 class="font-semibold mb-4">Segurança</h5>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <i data-lucide="shield" class="h-5 w-5 text-green-400"></i>
-                        <span class="text-sm text-gray-400">Site 100% Seguro</span>
-                    </div>
-                    <p class="text-gray-400 text-sm">Seus dados estão protegidos com criptografia SSL</p>
+                    <h3 class="text-xl font-bold mb-4">Contato</h3>
+                    <ul>
+                        <li class="mb-2 flex items-start">
+                            <i class="fas fa-map-marker-alt mr-2 mt-1"></i>
+                            <span>Rua dos Livros, 123 - Centro<br>São Paulo - SP</span>
+                        </li>
+                        <li class="mb-2 flex items-center">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span>(11) 1234-5678</span>
+                        </li>
+                        <li class="mb-2 flex items-center">
+                            <i class="fas fa-envelope mr-2"></i>
+                            <span>contato@livraria3a.com.br</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Library 3A. Todos os direitos reservados.</p>
+            
+            <div class="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2023 Livraria 3A. Todos os direitos reservados.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <img src="https://via.placeholder.com/50x30?text=Visa" alt="Visa" class="h-8">
+                    <img src="https://via.placeholder.com/50x30?text=Mastercard" alt="Mastercard" class="h-8">
+                    <img src="https://via.placeholder.com/50x30?text=Amex" alt="Amex" class="h-8">
+                    <img src="https://via.placeholder.com/50x30?text=Boleto" alt="Boleto" class="h-8">
+                    <img src="https://via.placeholder.com/50x30?text=Pix" alt="Pix" class="h-8">
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
-        <span id="toast-message"></span>
-    </div>
+    <!-- WhatsApp Float -->
+    <a href="#" class="fixed bottom-6 right-6 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
 
-    <script src="script.js"></script>
+    <script>
+        // Mobile menu toggle functionality would go here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simple cart counter
+            const cartButtons = document.querySelectorAll('.book-card button');
+            cartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // In a real implementation, this would update the cart count
+                    alert('Livro adicionado ao carrinho!');
+                });
+            });
+            
+            // Newsletter form
+            const newsletterForm = document.querySelector('.newsletter-btn');
+            if(newsletterForm) {
+                newsletterForm.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const emailInput = document.querySelector('.newsletter-input');
+                    if(emailInput.value.includes('@')) {
+                        alert('Obrigado por assinar nossa newsletter!');
+                        emailInput.value = '';
+                    } else {
+                        alert('Por favor, insira um e-mail válido.');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
